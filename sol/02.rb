@@ -1,24 +1,22 @@
-database = DATA.each_line.to_a.freeze
+tokenizer = /(\d+)-(\d+) (\w): (.*)/
 
-def count database, &block
-  database.count do |line|
-    n, m, letter, password = tokenize line.strip
+records = DATA.read.scan tokenizer
 
-    block.call(n.to_i, m.to_i, letter, password)
+def count records, &validator
+  records.count do |record|
+    first_number, second_number, letter, password = *record
+
+    validator.call(first_number.to_i, second_number.to_i, letter, password)
   end
 end
 
-def tokenize line
-  line.match(/(\d+)-(\d+) (\w): (.*)/).captures
-end
-
-n = count database do |min, max, letter, password|
+n = count records do |min, max, letter, password|
   password.count(letter).between? min, max
 end
 
 puts n # 469
 
-n = count database do |i, j, letter, password|
+n = count records do |i, j, letter, password|
   (password[i - 1] == letter) ^ (password[j - 1] == letter)
 end
 
