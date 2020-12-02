@@ -3,7 +3,7 @@
 |Day|Name|Solution|Status|
 |---|---|---|---|
 |[01](https://adventofcode.com/2020/day/1)|Report Repair|[view](/sol/01.rb)|⭐ ⭐|
-|[02](https://adventofcode.com/2020/day/2)|-|-||
+|[02](https://adventofcode.com/2020/day/2)|Password Philosophy|[view](/sol/02.rb)|⭐ ⭐|
 |[03](https://adventofcode.com/2020/day/3)|-|-||
 |[04](https://adventofcode.com/2020/day/4)|-|-||
 |[05](https://adventofcode.com/2020/day/5)|-|-||

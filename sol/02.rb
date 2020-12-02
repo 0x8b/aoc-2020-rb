@@ -1,7 +1,7 @@
-data = DATA.each_line.to_a.freeze
+database = DATA.each_line.to_a.freeze
 
-def count_valid data, &block
-  data.count do |line|
+def count database, &block
+  database.count do |line|
     n, m, letter, password = tokenize line.strip
 
     block.call(n.to_i, m.to_i, letter, password)
@@ -12,17 +12,17 @@ def tokenize line
   line.match(/(\d+)-(\d+) (\w): (.*)/).captures
 end
 
-no_of_valid = count_valid data do |min, max, letter, password|
+n = count database do |min, max, letter, password|
   password.count(letter).between? min, max
 end
 
-puts no_of_valid # 469
+puts n # 469
 
-no_of_valid = count_valid data do |i, j, letter, password|
+n = count database do |i, j, letter, password|
   (password[i - 1] == letter) ^ (password[j - 1] == letter)
 end
 
-puts no_of_valid # 267
+puts n # 267
 
 __END__
 9-10 m: mmmmnxmmmwm
