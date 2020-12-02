@@ -1,23 +1,15 @@
-tokenizer = /(\d+)-(\d+) (\w): (.*)/
+tokenizer = /(\d+)-(\d+) (\w): (\w+)/
 
 records = DATA.read.scan tokenizer
 
-def count records, &validator
-  records.count do |record|
-    first_number, second_number, letter, password = *record
-
-    validator.call(first_number.to_i, second_number.to_i, letter, password)
-  end
-end
-
-n = count records do |min, max, letter, password|
-  password.count(letter).between? min, max
+n = records.count do |min, max, letter, password|
+  password.count(letter).between? min.to_i, max.to_i
 end
 
 puts n # 469
 
-n = count records do |i, j, letter, password|
-  (password[i - 1] == letter) ^ (password[j - 1] == letter)
+n = records.count do |i, j, letter, password|
+  (password[i.to_i - 1] == letter) ^ (password[j.to_i - 1] == letter)
 end
 
 puts n # 267
