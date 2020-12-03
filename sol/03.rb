@@ -1,22 +1,11 @@
-map = DATA.read.strip.split.map { |line| line.split "" }
+map = DATA.read.strip.split
 
 def count_trees map, dx, dy
-  map_height = map.length
-  map_width = map.first.length
-  counter = 0
-  x = 0
-  y = 0
+  (0...map.size).step(dy).count do |y|
+    x = ((y / dy) * dx) % map.first.size
 
-  while y < map_height do
-    if map[y][x % map_width] == "#"
-      counter += 1
-    end
-
-    x += dx
-    y += dy
+    map[y][x] == "#"
   end
-
-  counter
 end
 
 puts count_trees(map, 3, 1) # 205
