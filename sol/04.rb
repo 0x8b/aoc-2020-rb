@@ -1,30 +1,31 @@
-require 'set'
+passports = DATA.read.lines.map(&:strip).chunk_while do |before, _|
+  before.size > 0
+end.map do |passport|
+  passport.join(" ").split(" ").map do |field|
+    field.split ":"
+  end.to_h
+end.to_a
 
-passports = DATA.read.lines.map(&:strip).chunk_while { |b, a| b.length > 0 }.map { |p| p.join " " }.to_a
-
-required = %w(byr iyr eyr hgt hcl ecl pid).map { |p| p + ":" }.to_set
-
-tokenizer = Regexp.new required.to_a.join("|")
+required_fields = %w(byr iyr eyr hgt hcl ecl pid)
 
 valid = passports.select do |passport|
-  required.subset? passport.scan(tokenizer).to_set
+  required_fields - passport.keys == []
 end
 
 puts valid.count # 250
 
-strict_valid = valid.select do |passport|
-  f = passport.split(" ").map { |f| f.split(":") }.to_h
+strict_valid = valid.select do |p|
+  t1 = p["byr"].to_i.between? 1920, 2002
+  t2 = p["iyr"].to_i.between? 2010, 2020
+  t3 = p["eyr"].to_i.between? 2020, 2030
+  h  = p["hgt"]
+  t4 = h =~ /cm$/ && h.to_i.between?(150, 193)
+  t5 = h =~ /in$/ && h.to_i.between?(59, 76)
+  t6 = p["hcl"] =~ /^#[a-f0-9]{6}$/
+  t7 = p["pid"] =~ /^[0-9]{9}$/
+  t8 = "amb blu brn gry grn hzl oth".include? p["ecl"]
 
-  f1 = f["byr"].to_i.between? 1920, 2002
-  f2 = f["iyr"].to_i.between? 2010, 2020
-  f3 = f["eyr"].to_i.between? 2020, 2030
-  h = f["hgt"]
-  f4 = (h =~ /cm$/ && h.to_i.between?(150, 193)) || (h =~ /in$/ && h.to_i.between?(59, 76))
-  f5 = f["hcl"].length == 7 && f["hcl"] =~ /#[a-f0-9]{6}/
-  f6 = "amb blu brn gry grn hzl oth".include? f["ecl"]
-  f7 = f["pid"].length == 9 && f["pid"] =~ /[0-9]{9}/
-
-  [f1, f2, f3, f4, f5, f6, f7].all?
+  [t1, t2, t3, (t4 || t5), t6, t7, t8].all?
 end
 
 puts strict_valid.count # 158
