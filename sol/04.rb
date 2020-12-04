@@ -12,33 +12,22 @@ end
 
 puts valid.count # 250
 
-valid = valid.select do |passport|
-  fields = passport.split(" ").map { |f| f.split(":") }.to_h
+strict_valid = valid.select do |passport|
+  f = passport.split(" ").map { |f| f.split(":") }.to_h
 
-  begin
-    a = fields["byr"].to_i.between? 1920, 2002
-    b = fields["iyr"].to_i.between? 2010, 2020
-    c = fields["eyr"].to_i.between? 2020, 2030
-    hgt = fields["hgt"]
-    d = if hgt.end_with? "in"
-      hgt.delete_suffix("in").to_i.between? 59, 76
-    elsif hgt.end_with? "cm"
-      hgt.delete_suffix("cm").to_i.between? 150, 193
-    else
-      false
-    end
-    e = (fields["hcl"].length == 7) && (fields["hcl"].match /#[a-f0-9]{6}/)
-    f = %w(amb blu brn gry grn hzl oth).include? fields["ecl"]
-    g = (fields["pid"].length == 9) && (fields["pid"].match /[0-9]{9}/)
+  f1 = f["byr"].to_i.between? 1920, 2002
+  f2 = f["iyr"].to_i.between? 2010, 2020
+  f3 = f["eyr"].to_i.between? 2020, 2030
+  h = f["hgt"]
+  f4 = (h =~ /cm$/ && h.to_i.between?(150, 193)) || (h =~ /in$/ && h.to_i.between?(59, 76))
+  f5 = f["hcl"].length == 7 && f["hcl"] =~ /#[a-f0-9]{6}/
+  f6 = "amb blu brn gry grn hzl oth".include? f["ecl"]
+  f7 = f["pid"].length == 9 && f["pid"] =~ /[0-9]{9}/
 
-    a & b & c & d & e & f & g
-  rescue
-    false
-  end
-
+  [f1, f2, f3, f4, f5, f6, f7].all?
 end
 
-puts valid.count # 158
+puts strict_valid.count # 158
 
 __END__
 eyr:2024 pid:662406624 hcl:#cfa07d byr:1947 iyr:2015 ecl:amb hgt:150cm
