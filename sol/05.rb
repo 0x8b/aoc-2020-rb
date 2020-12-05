@@ -1,29 +1,10 @@
-require 'set'
-
 data = DATA.read.lines.map &:strip
 
-def seat bsp
-  [
-    bsp[...7].tr("FB", "01").to_i(2),
-    bsp[-3..].tr("LR", "01").to_i(2)
-  ]
-end
-
-def seat_id rc
-  rc[0] * 8 + rc[1]
-end
-
-ids = data.map { |bsp| seat_id(seat(bsp)) }.to_set
+ids = data.map { |bsp| bsp.tr("FBLR", "0101").to_i 2 }
 
 puts ids.max # 955
 
-available_seat = (0..127).to_a.product((0..7).to_a).map do |rc|
-  seat_id(rc)
-end.find do |id|
-  Set[id - 1, id + 1] < ids and !ids.member? id
-end
-
-puts seat_id available_seat # 569
+puts (ids.min..ids.max).to_a - ids # 569
 
 __END__
 BFFFBFFRLR
