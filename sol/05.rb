@@ -1,6 +1,4 @@
-data = DATA.read.lines.map &:strip
-
-ids = data.map { |bsp| bsp.tr("FBLR", "0101").to_i 2 }
+ids = DATA.read.lines.map { |bsp| bsp.strip.tr("FBLR", "0101").to_i 2 }
 
 puts ids.max # 955
 
