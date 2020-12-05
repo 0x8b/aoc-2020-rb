@@ -9,7 +9,7 @@ end
 puts n # 469
 
 n = records.count do |i, j, letter, password|
-  (password[i.to_i - 1] == letter) ^ (password[j.to_i - 1] == letter)
+  (password[i.to_i - 1] == letter) != (password[j.to_i - 1] == letter)
 end
 
 puts n # 267

@@ -1,20 +1,11 @@
-require 'set'
+ns = DATA.each_line.map &:to_i
 
-data = DATA.each_line.map do |line|
-  line.strip.to_i
+[2, 3].each do |n|
+  puts ns.combination(n).find { |c| c.sum == 2020 }.inject(:*)
 end
 
-D = data.to_set
-
-n = D.find { |e| D.include? 2020 - e }
-
-puts n * (2020 - n) # 889779
-
-a, b = data.product(data).find do |e, e2|
-  D.include? 2020 - e - e2
-end
-
-puts a * b * (2020 - a - b) # 76110336
+# 889779
+# 76110336
 
 __END__
 1732
