@@ -1,6 +1,6 @@
 require 'set'
 
-data = DATA.read.lines.map(&:strip).to_a
+data = DATA.read.lines.map &:strip
 
 def seat bsp
   [
@@ -9,22 +9,21 @@ def seat bsp
   ]
 end
 
-def id rc
-  rc.first * 8 + rc.last
+def seat_id rc
+  rc[0] * 8 + rc[1]
 end
 
-ids = data.map { |bsp| id(seat(bsp)) }.to_set
+ids = data.map { |bsp| seat_id(seat(bsp)) }.to_set
 
 puts ids.max # 955
 
-all_seats = (0..127).to_a.product((0..7).to_a).to_set
-taken = data.map { |bsp| seat bsp }
-
-available_seat = (all_seats - taken.to_set).find do |rc|
-  (ids.member? id(rc) + 1) && (ids.member? id(rc) - 1)
+available_seat = (0..127).to_a.product((0..7).to_a).map do |rc|
+  seat_id(rc)
+end.find do |id|
+  Set[id - 1, id + 1] < ids and !ids.member? id
 end
 
-puts id available_seat # 569
+puts seat_id available_seat # 569
 
 __END__
 BFFFBFFRLR
