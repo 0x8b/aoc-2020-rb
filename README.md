@@ -8,7 +8,7 @@
 |[04](https://adventofcode.com/2020/day/4)|Passport Processing|[view](/sol/04.rb)|⭐ ⭐|
 |[05](https://adventofcode.com/2020/day/5)|Binary Boarding|[view](/sol/05.rb)|⭐ ⭐|
 |[06](https://adventofcode.com/2020/day/6)|Custom Customs|[view](/sol/06.rb)|⭐ ⭐|
-|[07](https://adventofcode.com/2020/day/7)|-|-||
+|[07](https://adventofcode.com/2020/day/7)|Handy Haversacks|[view](/sol/07.rb)|⭐ ⭐|
 |[08](https://adventofcode.com/2020/day/8)|-|-||
 |[09](https://adventofcode.com/2020/day/9)|-|-||
 |[10](https://adventofcode.com/2020/day/10)|-|-||

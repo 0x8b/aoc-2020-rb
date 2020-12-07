@@ -1,18 +1,15 @@
 require 'set'
 
-data = DATA.read.lines.map(&:strip).chunk_while { |b, a| b.strip.size > 0 }.to_a
+groups = DATA.read.split("\n\n").map(&:split).to_a
 
-total = data.map do |group|
+total = groups.map do |group|
   group.join.chars.to_set.count
 end.sum
 
 puts total # 6351
 
-
-total = data.map do |group|
-  group.select do |ans|
-    ans.size > 0
-  end.map do |ans|
+total = groups.map do |group|
+  group.map do |ans|
     ans.chars.to_set
   end.inject do |common, persons_ans|
     common.intersection persons_ans
