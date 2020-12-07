@@ -13,9 +13,9 @@ rules = DATA.read.lines.map(&:strip).flat_map { |rule| parse_rule rule }.compact
 suitable_colors = Set["shiny gold"]
 
 loop do
-  more_colors = rules.select do |_, _, second_color|
-    suitable_colors.include? second_color
-  end.map(&:first).to_set.union(suitable_colors)
+  more_colors = rules.filter_map do |first_color, _, second_color|
+    first_color if suitable_colors.include? second_color
+  end.to_set.union(suitable_colors)
 
   break if more_colors == suitable_colors
 
@@ -24,13 +24,10 @@ end
 
 puts suitable_colors.count - 1 # 272
 
-
 def count_content rules, color
-  rules.select do |first_color, _, _|
-    first_color == color
-  end.sum do |_, quantity, second_color|
-    quantity + quantity * count_content(rules, second_color)
-  end
+  rules.filter_map do |first_color, quantity, second_color|
+    quantity + quantity * count_content(rules, second_color) if first_color == color
+  end.sum
 end
 
 puts count_content(rules, "shiny gold") # 172246
