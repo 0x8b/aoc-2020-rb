@@ -1,52 +1,40 @@
 require 'set'
 
 def parse_rule rule
-  color, _, content = rule.delete_suffix(?.).partition " bags contain "
+  color = rule.scan(/\w+ \w+/).first
+  content = rule.scan(/(\d+) (\w+ \w+)/)
 
-  content.split(?,).map do |c|
-    quantity, _, color2 =
-      c.strip
-       .delete_suffix("no other bags")
-       .delete_suffix("bags")
-       .delete_suffix("bag")
-       .strip
-       .partition(" ")
-
-    [color, quantity.to_i, color2]
-  end.select do |rule|
-    rule[1] > 0
-  end.to_a
+  content.filter_map { |q, c| [color, q.to_i, c] } if content.size > 0
 end
 
-rules = DATA.read.lines.map(&:strip).flat_map do |rule|
-  parse_rule rule
-end
+rules = DATA.read.lines.map(&:strip).flat_map { |rule| parse_rule rule }.compact
 
-colors = Set["shiny gold"]
+
+suitable_colors = Set["shiny gold"]
 
 loop do
-  more_colors = rules.select do |from, _, to|
-    colors.include? to
-  end.map(&:first).to_set.union(colors)
+  more_colors = rules.select do |_, _, second_color|
+    suitable_colors.include? second_color
+  end.map(&:first).to_set.union(suitable_colors)
 
-  if more_colors.subset? colors
-    break
-  else
-    colors = more_colors
+  break if more_colors == suitable_colors
+
+  suitable_colors = more_colors
+end
+
+puts suitable_colors.count - 1 # 272
+
+
+def count_content rules, color
+  rules.select do |first_color, _, _|
+    first_color == color
+  end.sum do |_, quantity, second_color|
+    quantity + quantity * count_content(rules, second_color)
   end
 end
 
-puts colors.count - 1 # 272
+puts count_content(rules, "shiny gold") # 172246
 
-def count_all_in_bag rules, color
-  rules.select do |rule|
-    rule.first == color
-  end.sum do |_, quantity, color|
-    quantity + quantity * count_all_in_bag(rules, color)
-  end
-end
-
-puts count_all_in_bag(rules, "shiny gold") # 172246
 
 __END__
 vibrant salmon bags contain 1 vibrant gold bag, 2 wavy aqua bags, 1 dotted crimson bag.
