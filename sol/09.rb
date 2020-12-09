@@ -1,27 +1,21 @@
 data = DATA.each_line.map &:to_i
 
-preamble_lenght = 25
+preamble_length = 25
 
-n = data.each_cons(preamble_lenght + 1).find do |slice|
-  last = slice.last
-  prev = slice[0..preamble_lenght]
+invalid = data.each_cons(preamble_length + 1).find do |chunk|
+  n = chunk.last
 
-  prev.combination(2).all? do |c|
-    c.sum != last
-  end
+  chunk.take(preamble_length).combination(2).all? { |c| c.sum != n }
 end.last
 
-puts n # 375054920
+puts invalid # 375054920
 
-s = 0
-e = 0
+s, e = 0, 0
 
 while s < data.length do
-  if data[s..e].sum == n
-    break
-  end
-
-  if data[s..e].sum < n
+  if data[s..e].sum == invalid
+    break if e > s
+  elsif data[s..e].sum < invalid
     e += 1
   else
     s += 1
