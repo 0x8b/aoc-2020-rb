@@ -1,28 +1,24 @@
 data = DATA.each_line.map &:to_i
 
-preamble_length = 25
-
-invalid = data.each_cons(preamble_length + 1).find do |chunk|
-  n = chunk.last
-
-  chunk.take(preamble_length).combination(2).all? { |c| c.sum != n }
+invalid = data.each_cons(26).find do |chunk|
+  chunk.take(25).combination(2).all? { |c| c.sum != chunk.last }
 end.last
 
 puts invalid # 375054920
 
-s, e = 0, 0
+b, e = 0, 0
 
-while s < data.length do
-  if data[s..e].sum == invalid
-    break if e > s
-  elsif data[s..e].sum < invalid
+while b < data.length do
+  if data[b..e].sum == invalid
+    break if e > b # at least two numbers
+  elsif data[b..e].sum < invalid
     e += 1
   else
-    s += 1
+    b += 1
   end
 end
 
-puts data[s..e].minmax.sum # 54142584
+puts data[b..e].minmax.sum # 54142584
 
 __END__
 34
