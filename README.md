@@ -11,7 +11,7 @@
 |[07](https://adventofcode.com/2020/day/7)|Handy Haversacks|[view](/sol/07.rb)|⭐ ⭐|
 |[08](https://adventofcode.com/2020/day/8)|Handheld Halting|[view](/sol/08.rb)|⭐ ⭐|
 |[09](https://adventofcode.com/2020/day/9)|Encoding Error|[view](/sol/09.rb)|⭐ ⭐|
-|[10](https://adventofcode.com/2020/day/10)|-|-||
+|[10](https://adventofcode.com/2020/day/10)|Adapter Array|[view](/sol/10.rb)|⭐ ⭐|
 |[11](https://adventofcode.com/2020/day/11)|-|-||
 |[12](https://adventofcode.com/2020/day/12)|-|-||
 |[13](https://adventofcode.com/2020/day/13)|-|-||
