@@ -1,13 +1,8 @@
-data = DATA.each_line.map(&:to_i).sort
+data = DATA.each_line.map &:to_i
 
-data.unshift(0)
-data.push(data.max + 3)
+data = [0, *data.sort, data.max + 3]
 
-counter = Hash.new(0)
-
-data.each_cons(2) do |a, b| counter[b - a] += 1 end
-
-puts counter[1] * counter[3] # 2482
+puts data.each_cons(2).map { |a, b| b - a }.tally.values.inject(:*) # 2482
 
 
 ways = [0] * data.size
