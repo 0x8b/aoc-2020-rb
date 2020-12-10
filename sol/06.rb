@@ -1,22 +1,8 @@
-require 'set'
+groups = DATA.read.split("\n\n").map &:split
 
-groups = DATA.read.split("\n\n").map(&:split).to_a
+puts groups.sum { |g| g.join.chars.uniq.size } # 6351
 
-total = groups.map do |group|
-  group.join.chars.to_set.count
-end.sum
-
-puts total # 6351
-
-total = groups.map do |group|
-  group.map do |ans|
-    ans.chars.to_set
-  end.inject do |common, persons_ans|
-    common.intersection persons_ans
-  end
-end.map(&:size).sum
-
-puts total # 3143
+puts groups.sum { |g| g.map(&:chars).inject(:&).size } # 3143
 
 __END__
 c
