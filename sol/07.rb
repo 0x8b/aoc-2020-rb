@@ -1,37 +1,40 @@
 require 'set'
 
-def parse_rule rule
-  color = rule.scan(/\w+ \w+/).first
-  content = rule.scan(/(\d+) (\w+ \w+)/)
+PARENTS  = Hash.new { |h, k| h[k] = [] }
+CONTENTS = Hash.new { |h, k| h[k] = [] }
 
-  content.filter_map { |q, c| [color, q.to_i, c] } if content.size > 0
+def parse_rule rule
+  parent = rule.scan(/\w+ \w+/).first
+
+  rule.scan(/(\d+) (\w+ \w+)/).each do |quantity, child|
+    PARENTS[child].push parent
+    CONTENTS[parent].push [quantity.to_i, child]
+  end
 end
 
-rules = DATA.read.lines.map(&:strip).flat_map { |rule| parse_rule rule }.compact
+DATA.each_line { |rule| parse_rule rule.strip }
 
 
-suitable_colors = Set["shiny gold"]
+parents = Set["shiny gold"]
 
 loop do
-  more_colors = rules.filter_map do |first_color, _, second_color|
-    first_color if suitable_colors.include? second_color
-  end.to_set.union(suitable_colors)
+  more_parents = PARENTS.values_at(*parents).flatten.to_set
 
-  break if more_colors == suitable_colors
+  break if more_parents.subset? parents
 
-  suitable_colors = more_colors
+  parents |= more_parents
 end
 
-puts suitable_colors.count - 1 # 272
+puts parents.size - 1 # 272
 
-def count_content rules, color
-  rules.filter_map do |first_color, quantity, second_color|
-    quantity + quantity * count_content(rules, second_color) if first_color == color
-  end.sum
+
+def count_content parent
+  CONTENTS[parent].sum do |quantity, child|
+    quantity + quantity * count_content(child)
+  end
 end
 
-puts count_content(rules, "shiny gold") # 172246
-
+puts count_content "shiny gold" # 172246
 
 __END__
 vibrant salmon bags contain 1 vibrant gold bag, 2 wavy aqua bags, 1 dotted crimson bag.
