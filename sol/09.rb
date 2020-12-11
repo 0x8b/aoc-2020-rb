@@ -1,7 +1,7 @@
 data = DATA.each_line.map &:to_i
 
-invalid = data.each_cons(26).find do |chunk|
-  chunk.take(25).combination(2).all? { |c| c.sum != chunk.last }
+invalid = data.each_cons(26).find do |*previous, target|
+  previous.combination(2).all? { |c| c.sum != target }
 end.last
 
 puts invalid # 375054920
