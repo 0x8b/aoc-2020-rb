@@ -1,21 +1,51 @@
 LAYOUT = DATA.each_line.map { |row| row.strip.split '' }
 
-SLOPES = [-1, 0, 1].repeated_permutation(2).reject { |d| d == [0, 0] }
+SLOPES = [-1, 0, 1].repeated_permutation(2).to_a - [[0, 0]]
 
 ROWS = LAYOUT.size
 COLS = LAYOUT[0].size
+SEATS = (0...ROWS).to_a.product((0...COLS).to_a).reject { |r, c| LAYOUT[r][c] == ?. }
 
 def in_layout? r, c
   (0...ROWS) === r && (0...COLS) === c
 end
 
-def take_all_neighbors layout, r, c
+def count_occupied min_no_of_occupied, &look_for_seats
+  layout = LAYOUT.clone.map &:clone
+  next_layout = nil
+
+  loop do
+    next_layout = layout.clone.map &:clone
+
+    SEATS.each do |r, c|
+      seat = layout[r][c]
+      no_of_occupied = look_for_seats.call(layout, r, c).count ?#
+
+      if seat == ?L && no_of_occupied.zero?
+        next_layout[r][c] = ?#
+      elsif seat == ?# && no_of_occupied >= min_no_of_occupied
+        next_layout[r][c] = ?L
+      end
+    end
+
+    break if layout == next_layout
+
+    layout.replace next_layout
+  end
+
+  layout.flatten.count ?#
+end
+
+occupied = count_occupied 4 do |layout, r, c|
   SLOPES
     .map { |dr, dc| [r + dr, c + dc] }
     .filter_map { |r, c| layout[r][c] if in_layout? r, c }
 end
 
-def take_all_you_see layout, r, c
+puts occupied # 2211
+
+
+occupied = count_occupied 5 do |layout, r, c|
   SLOPES.filter_map do |dr, dc|
     (1..)
       .lazy
@@ -26,36 +56,7 @@ def take_all_you_see layout, r, c
   end
 end
 
-def count_occupied fn, min_no_of_occupied
-  layout = LAYOUT.clone.map &:clone
-  next_layout = nil
-
-  loop do
-    next_layout = LAYOUT.clone.map &:clone
-
-    (0...ROWS).to_a.product((0...COLS).to_a).each do |r, c|
-      cell = layout[r][c]
-
-      next_layout[r][c] = case cell
-        in "L" if fn.call(layout, r, c).none? "#"
-          "#"
-        in "#" if fn.call(layout, r, c).count("#") >= min_no_of_occupied
-          "L"
-        else
-          layout[r][c]
-        end
-    end
-
-    break if layout == next_layout
-
-    layout.replace next_layout
-  end
-
-  layout.flatten.count "#"
-end
-
-puts count_occupied(method(:take_all_neighbors), 4) # 2211
-puts count_occupied(method(:take_all_you_see), 5) # 1995
+puts occupied # 1995
 
 __END__
 LLLLLLLL.LLLL.LLLLLLLLL.LLLLLL..L.LLLLL.LLLLL.LLLLLL.LLLLLLLLLLLLLL.LLLLLLLLLLLLLL.L.LLLLLLLLLL
