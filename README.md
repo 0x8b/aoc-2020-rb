@@ -1,6 +1,6 @@
 # [Advent of Code 2020](https://adventofcode.com/2020)
 
-Code golf ⛳
+Code golf:
 
 - [12. Rain Risk](/sol/12-golf.rb)
 
