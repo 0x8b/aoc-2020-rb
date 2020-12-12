@@ -3,53 +3,53 @@ data = DATA.read.lines.map do |l|
   [l[0], l[1..].to_i]
 end
 
-pos = Complex(0, 0)
-dir = Complex(1, 0)
-rrot = Complex(0, -1)
-lrot = Complex(0, 1)
+pos = 0
+d = 1
+rrot = -1i
+lrot = 1i
 
-data.each do |c, v|
-  rot = v / 90
+data.each do |c, m|
+  rot = m / 90
   case c
     in "N"
-      pos += v * Complex(0, 1)
+      pos += m * 1i
     in "S"
-      pos += v * Complex(0, -1)
+      pos += m * -1i
     in "W"
-      pos += v * Complex(-1, 0)
+      pos += m * -1
     in "E"
-      pos += v * Complex(1, 0)
+      pos += m * 1
     in "F"
-      pos += v * dir
+      pos += m * d
     in "L"
-      dir = dir * lrot ** rot
+      d = d * lrot ** rot
     in "R"
-      dir = dir * rrot ** rot
+      d = d * rrot ** rot
   end
 end
 
 puts pos.real.abs + pos.imag.abs # 2458
 
-waypoint = Complex(10, 1)
-pos = Complex(0, 0)
 
-data.each do |c, v|
-  rot = v / 90
+w = 10+1i
+pos = 0
+
+data.each do |c, m|
   case c
     in "N"
-      waypoint += v * Complex(0, 1)
+      w += m * 1i
     in "S"
-      waypoint += v * Complex(0, -1)
+      w += m * -1i
     in "W"
-      waypoint += v * Complex(-1, 0)
+      w += m * -1
     in "E"
-      waypoint += v * Complex(1, 0)
+      w += m * 1
     in "F"
-      pos += v * waypoint
+      pos += m * w
     in "L"
-      waypoint = waypoint * lrot ** rot
+      w = w * lrot ** (m / 90)
     in "R"
-      waypoint = waypoint * rrot ** rot
+      w = w * rrot ** (m / 90)
   end
 end
 
