@@ -1,55 +1,61 @@
-data = DATA.read.lines.map do |l|
-  l = l.strip
-  [l[0], l[1..].to_i]
-end
+instructions = DATA.each_line.map { |l| [l[0], l[1..].to_i] }
 
-pos = 0
-d = 1
-rrot = -1i
-lrot = 1i
+INITIAL_POS = Complex(0, 0)
+N = Complex( 0,  1)
+S = Complex( 0, -1)
+E = Complex( 1,  0)
+W = Complex(-1,  0)
+R = Complex( 0, -1)
+L = Complex( 0,  1)
 
-data.each do |c, m|
-  rot = m / 90
-  case c
+pos = INITIAL_POS
+dir = E
+
+instructions.each do |action, val|
+  n = val / 90
+
+  case action
     in "N"
-      pos += m * 1i
+      pos += val * N
     in "S"
-      pos += m * -1i
+      pos += val * S
     in "W"
-      pos += m * -1
+      pos += val * W
     in "E"
-      pos += m * 1
+      pos += val * E
     in "F"
-      pos += m * d
+      pos += val * dir
     in "L"
-      d = d * lrot ** rot
+      dir *= L ** n
     in "R"
-      d = d * rrot ** rot
+      dir *= R ** n
   end
 end
 
 puts pos.real.abs + pos.imag.abs # 2458
 
 
-w = 10+1i
-pos = 0
+wp = Complex(10, 1)
+pos = INITIAL_POS
 
-data.each do |c, m|
-  case c
+instructions.each do |action, val|
+  n = val / 90
+
+  case action
     in "N"
-      w += m * 1i
+      wp += val * N
     in "S"
-      w += m * -1i
+      wp += val * S
     in "W"
-      w += m * -1
+      wp += val * W
     in "E"
-      w += m * 1
+      wp += val * E
     in "F"
-      pos += m * w
+      pos += val * wp
     in "L"
-      w = w * lrot ** (m / 90)
+      wp *= L ** n
     in "R"
-      w = w * rrot ** (m / 90)
+      wp *= R ** n
   end
 end
 
