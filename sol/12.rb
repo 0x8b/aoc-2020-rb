@@ -10,6 +10,9 @@ L = Complex( 0,  1)
 
 pos = INITIAL_POS
 dir = E
+# ↕ unrelated variables
+pos2 = INITIAL_POS
+wp = 10 * E + N
 
 instructions.each do |action, val|
   n = val / 90
@@ -17,48 +20,30 @@ instructions.each do |action, val|
   case action
     in "N"
       pos += val * N
+      wp  += val * N
     in "S"
       pos += val * S
+      wp  += val * S
     in "W"
       pos += val * W
+      wp  += val * W
     in "E"
       pos += val * E
+      wp  += val * E
     in "F"
-      pos += val * dir
+      pos  += val * dir
+      pos2 += val * wp
     in "L"
       dir *= L ** n
+      wp  *= L ** n
     in "R"
       dir *= R ** n
+      wp  *= R ** n
   end
 end
 
 puts pos.real.abs + pos.imag.abs # 2458
-
-wp = 10 * E + N
-pos = INITIAL_POS
-
-instructions.each do |action, val|
-  n = val / 90
-
-  case action
-    in "N"
-      wp += val * N
-    in "S"
-      wp += val * S
-    in "W"
-      wp += val * W
-    in "E"
-      wp += val * E
-    in "F"
-      pos += val * wp
-    in "L"
-      wp *= L ** n
-    in "R"
-      wp *= R ** n
-  end
-end
-
-puts pos.real.abs + pos.imag.abs # 145117
+puts pos2.real.abs + pos2.imag.abs # 145117
 
 __END__
 F98
