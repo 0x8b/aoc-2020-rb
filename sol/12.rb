@@ -34,8 +34,7 @@ end
 
 puts pos.real.abs + pos.imag.abs # 2458
 
-
-wp = Complex(10, 1)
+wp = 10 * E + N
 pos = INITIAL_POS
 
 instructions.each do |action, val|
