@@ -1,29 +1,21 @@
-# 0x8b's [Advent of Code 2020](https://adventofcode.com/2020) solutions
+# [Advent of Code 2020](https://adventofcode.com/2020)
 
-|Day|Name|Solution|Status|
-|---|---|---|---|
-|[01](https://adventofcode.com/2020/day/1)|Report Repair|[view](/sol/01.rb)|⭐ ⭐|
-|[02](https://adventofcode.com/2020/day/2)|Password Philosophy|[view](/sol/02.rb)|⭐ ⭐|
-|[03](https://adventofcode.com/2020/day/3)|Toboggan Trajectory|[view](/sol/03.rb)|⭐ ⭐|
-|[04](https://adventofcode.com/2020/day/4)|Passport Processing|[view](/sol/04.rb)|⭐ ⭐|
-|[05](https://adventofcode.com/2020/day/5)|Binary Boarding|[view](/sol/05.rb)|⭐ ⭐|
-|[06](https://adventofcode.com/2020/day/6)|Custom Customs|[view](/sol/06.rb)|⭐ ⭐|
-|[07](https://adventofcode.com/2020/day/7)|Handy Haversacks|[view](/sol/07.rb)|⭐ ⭐|
-|[08](https://adventofcode.com/2020/day/8)|Handheld Halting|[view](/sol/08.rb)|⭐ ⭐|
-|[09](https://adventofcode.com/2020/day/9)|Encoding Error|[view](/sol/09.rb)|⭐ ⭐|
-|[10](https://adventofcode.com/2020/day/10)|Adapter Array|[view](/sol/10.rb)|⭐ ⭐|
-|[11](https://adventofcode.com/2020/day/11)|Seating System|[view](/sol/11.rb)|⭐ ⭐|
-|[12](https://adventofcode.com/2020/day/12)|Rain Risk|[view](/sol/12.rb)|⭐ ⭐|
-|[13](https://adventofcode.com/2020/day/13)|-|-||
-|[14](https://adventofcode.com/2020/day/14)|-|-||
-|[15](https://adventofcode.com/2020/day/15)|-|-||
-|[16](https://adventofcode.com/2020/day/16)|-|-||
-|[17](https://adventofcode.com/2020/day/17)|-|-||
-|[18](https://adventofcode.com/2020/day/18)|-|-||
-|[19](https://adventofcode.com/2020/day/19)|-|-||
-|[20](https://adventofcode.com/2020/day/20)|-|-||
-|[21](https://adventofcode.com/2020/day/21)|-|-||
-|[22](https://adventofcode.com/2020/day/22)|-|-||
-|[23](https://adventofcode.com/2020/day/23)|-|-||
-|[24](https://adventofcode.com/2020/day/24)|-|-||
-|[25](https://adventofcode.com/2020/day/25)|-|-||
+Code golf ⛳
+
+- [12. Rain Risk](/sol/12-golf.rb)
+
+|Day|Name|Code|Status|Day|Name|Code|Status|
+|---|---|---|---|---|---|---|---|
+|01|[Report Repair](https://adventofcode.com/2020/day/1)|[view](/sol/01.rb)|⭐ ⭐|14|[-](https://adventofcode.com/2020/day/14)|[-](sol/14.rb)||
+|02|[Password Philosophy](https://adventofcode.com/2020/day/2)|[view](/sol/02.rb)|⭐ ⭐|15|[-](https://adventofcode.com/2020/day/15)|[-](sol/15.rb)||
+|03|[Toboggan Trajectory](https://adventofcode.com/2020/day/3)|[view](/sol/03.rb)|⭐ ⭐|16|[-](https://adventofcode.com/2020/day/16)|[-](sol/16.rb)||
+|04|[Passport Processing](https://adventofcode.com/2020/day/4)|[view](/sol/04.rb)|⭐ ⭐|17|[-](https://adventofcode.com/2020/day/17)|[-](sol/17.rb)||
+|05|[Binary Boarding](https://adventofcode.com/2020/day/5)|[view](/sol/05.rb)|⭐ ⭐|18|[-](https://adventofcode.com/2020/day/18)|[-](sol/18.rb)||
+|06|[Custom Customs](https://adventofcode.com/2020/day/6)|[view](/sol/06.rb)|⭐ ⭐|19|[-](https://adventofcode.com/2020/day/19)|[-](sol/19.rb)||
+|07|[Handy Haversacks](https://adventofcode.com/2020/day/7)|[view](/sol/07.rb)|⭐ ⭐|20|[-](https://adventofcode.com/2020/day/20)|[-](sol/20.rb)||
+|08|[Handheld Halting](https://adventofcode.com/2020/day/8)|[view](/sol/08.rb)|⭐ ⭐|21|[-](https://adventofcode.com/2020/day/21)|[-](sol/21.rb)||
+|09|[Encoding Error](https://adventofcode.com/2020/day/9)|[view](/sol/09.rb)|⭐ ⭐|22|[-](https://adventofcode.com/2020/day/22)|[-](sol/22.rb)||
+|10|[Adapter Array](https://adventofcode.com/2020/day/10)|[view](/sol/10.rb)|⭐ ⭐|23|[-](https://adventofcode.com/2020/day/23)|[-](sol/23.rb)||
+|11|[Seating System](https://adventofcode.com/2020/day/11)|[view](/sol/11.rb)|⭐ ⭐|24|[-](https://adventofcode.com/2020/day/24)|[-](sol/24.rb)||
+|12|[Rain Risk](https://adventofcode.com/2020/day/12)|[view](/sol/12.rb)|⭐ ⭐|25|[-](https://adventofcode.com/2020/day/25)|[-](sol/25.rb)||
+|13|-|-||||||
