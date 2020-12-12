@@ -1,49 +1,38 @@
-instructions = DATA.each_line.map { |l| [l[0], l[1..].to_i] }
+instructions = DATA.map { |i| [i[0], i[1..].to_i] }
 
 INITIAL_POS = Complex(0, 0)
-N = Complex( 0,  1)
-S = Complex( 0, -1)
-E = Complex( 1,  0)
-W = Complex(-1,  0)
-R = Complex( 0, -1)
-L = Complex( 0,  1)
+D = {
+  ?N => Complex( 0,  1),
+  ?S => Complex( 0, -1),
+  ?E => Complex( 1,  0),
+  ?W => Complex(-1,  0),
+  ?R => Complex( 0, -1),
+  ?L => Complex( 0,  1),
+}
 
-pos = INITIAL_POS
-dir = E
-# ↕ unrelated variables
-pos2 = INITIAL_POS
-wp = 10 * E + N
+p1 = INITIAL_POS
+dir = D[?E]
+
+p2 = INITIAL_POS
+wp = 10 * D[?E] + D[?N]
 
 instructions.each do |action, val|
-  n = val / 90
-
   case action
-    in "N"
-      pos += val * N
-      wp  += val * N
-    in "S"
-      pos += val * S
-      wp  += val * S
-    in "W"
-      pos += val * W
-      wp  += val * W
-    in "E"
-      pos += val * E
-      wp  += val * E
-    in "F"
-      pos  += val * dir
-      pos2 += val * wp
-    in "L"
-      dir *= L ** n
-      wp  *= L ** n
-    in "R"
-      dir *= R ** n
-      wp  *= R ** n
+  in ?N | ?S | ?W | ?E
+    p1 += val * D[action]
+    wp += val * D[action] # part 2
+  in ?F
+    p1 += val * dir
+    p2 += val * wp # part 2
+  in ?L | ?R
+    n = val / 90
+    dir *= D[action] ** n
+    wp  *= D[action] ** n # part 2
   end
 end
 
-puts pos.real.abs + pos.imag.abs # 2458
-puts pos2.real.abs + pos2.imag.abs # 145117
+puts p1.rect.sum &:abs # 2458
+puts p2.rect.sum &:abs # 145117
 
 __END__
 F98
