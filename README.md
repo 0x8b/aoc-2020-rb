@@ -18,4 +18,4 @@ Code golf:
 |10|[Adapter Array](https://adventofcode.com/2020/day/10)|[view](/sol/10.rb)|⭐ ⭐|23|[-](https://adventofcode.com/2020/day/23)|[-](sol/23.rb)||
 |11|[Seating System](https://adventofcode.com/2020/day/11)|[view](/sol/11.rb)|⭐ ⭐|24|[-](https://adventofcode.com/2020/day/24)|[-](sol/24.rb)||
 |12|[Rain Risk](https://adventofcode.com/2020/day/12)|[view](/sol/12.rb)|⭐ ⭐|25|[-](https://adventofcode.com/2020/day/25)|[-](sol/25.rb)||
-|13|-|-||||||
+|13|[Shuttle Search]((https://adventofcode.com/2020/day/13))|[view](/sol/13.rb)|⭐|||||
