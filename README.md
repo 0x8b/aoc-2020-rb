@@ -6,7 +6,7 @@ Code golf:
 
 |Day|Name|Code|Status|Day|Name|Code|Status|
 |---|---|---|---|---|---|---|---|
-|01|[Report Repair](https://adventofcode.com/2020/day/1)|[view](/sol/01.rb)|⭐ ⭐|14|[-](https://adventofcode.com/2020/day/14)|[-](sol/14.rb)||
+|01|[Report Repair](https://adventofcode.com/2020/day/1)|[view](/sol/01.rb)|⭐ ⭐|14|[Docking Data](https://adventofcode.com/2020/day/14)|[view](sol/14.rb)|⭐ ⭐|
 |02|[Password Philosophy](https://adventofcode.com/2020/day/2)|[view](/sol/02.rb)|⭐ ⭐|15|[-](https://adventofcode.com/2020/day/15)|[-](sol/15.rb)||
 |03|[Toboggan Trajectory](https://adventofcode.com/2020/day/3)|[view](/sol/03.rb)|⭐ ⭐|16|[-](https://adventofcode.com/2020/day/16)|[-](sol/16.rb)||
 |04|[Passport Processing](https://adventofcode.com/2020/day/4)|[view](/sol/04.rb)|⭐ ⭐|17|[-](https://adventofcode.com/2020/day/17)|[-](sol/17.rb)||
@@ -18,4 +18,4 @@ Code golf:
 |10|[Adapter Array](https://adventofcode.com/2020/day/10)|[view](/sol/10.rb)|⭐ ⭐|23|[-](https://adventofcode.com/2020/day/23)|[-](sol/23.rb)||
 |11|[Seating System](https://adventofcode.com/2020/day/11)|[view](/sol/11.rb)|⭐ ⭐|24|[-](https://adventofcode.com/2020/day/24)|[-](sol/24.rb)||
 |12|[Rain Risk](https://adventofcode.com/2020/day/12)|[view](/sol/12.rb)|⭐ ⭐|25|[-](https://adventofcode.com/2020/day/25)|[-](sol/25.rb)||
-|13|[Shuttle Search]((https://adventofcode.com/2020/day/13))|[view](/sol/13.rb)|⭐|||||
+|13|[Shuttle Search](https://adventofcode.com/2020/day/13)|[view](/sol/13.rb)|⭐|||||
