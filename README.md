@@ -8,7 +8,7 @@ Code golf:
 |---|---|---|---|---|---|---|---|
 |01|[Report Repair](https://adventofcode.com/2020/day/1)|[view](/sol/01.rb)|⭐ ⭐|14|[Docking Data](https://adventofcode.com/2020/day/14)|[view](sol/14.rb)|⭐ ⭐|
 |02|[Password Philosophy](https://adventofcode.com/2020/day/2)|[view](/sol/02.rb)|⭐ ⭐|15|[Rambunctious Recitation](https://adventofcode.com/2020/day/15)|[view](sol/15.rb)|⭐ ⭐|
-|03|[Toboggan Trajectory](https://adventofcode.com/2020/day/3)|[view](/sol/03.rb)|⭐ ⭐|16|[-](https://adventofcode.com/2020/day/16)|[-](sol/16.rb)||
+|03|[Toboggan Trajectory](https://adventofcode.com/2020/day/3)|[view](/sol/03.rb)|⭐ ⭐|16|[Ticket Translation](https://adventofcode.com/2020/day/16)|[view](sol/16.rb)|⭐ ⭐|
 |04|[Passport Processing](https://adventofcode.com/2020/day/4)|[view](/sol/04.rb)|⭐ ⭐|17|[-](https://adventofcode.com/2020/day/17)|[-](sol/17.rb)||
 |05|[Binary Boarding](https://adventofcode.com/2020/day/5)|[view](/sol/05.rb)|⭐ ⭐|18|[-](https://adventofcode.com/2020/day/18)|[-](sol/18.rb)||
 |06|[Custom Customs](https://adventofcode.com/2020/day/6)|[view](/sol/06.rb)|⭐ ⭐|19|[-](https://adventofcode.com/2020/day/19)|[-](sol/19.rb)||
