@@ -1,60 +1,56 @@
 program = DATA.map do |line|
-  if line.start_with? "mask"
-    line[7..].strip
-  else
-    line.scan(/\d+/).map(&:to_i)
-  end
+  line.scan /[01X]{36}|\d+/
 end
 
-memory = Hash.new { |h, k| h[k] = 0 }
-mask = ?X * 36
+def sum_memory program, &store
+  memory = Hash.new { |h, k| h[k] = 0 }
+  mask = ?X * 36
 
-program.each do |line|
-  case line
-  in [address, value]
-    memory[address] = value.to_s(2).rjust(36, ?0).chars.zip(mask.chars).map do |vi, mi|
-      if mi == ?X
-        vi
-      else
-        mi
-      end
-    end.join.to_i(2)
-  in bitmask
-    mask = bitmask
-  end
-end
-
-puts memory.values.sum # 3059488894985
-
-
-memory = Hash.new { |h, k| h[k] = 0 }
-
-program.each do |line|
-  case line
-  in [address, value]
-    address = address.to_s(2).rjust(36, ?0).chars.zip(mask.chars).map do |vi, mi|
-      if mi == ?X
-        ?X
-      elsif mi == ?0
-        vi
-      else
-        1
-      end
-    end.join
-
-    floating_indices = address.chars.each_index.select { |i| address[i] == ?X }
-
-    [0, 1].repeated_permutation(floating_indices.size).each do |bits|
-      modified_address = address.clone
-      bits.zip(floating_indices) { |b, i| modified_address[i] = b.to_s}
-      memory[modified_address.to_i(2)] = value
+  program.each do |instruction|
+    case instruction
+      in [address, value]
+        store[memory, address.to_i, value.to_i, mask]
+      in [new_mask]
+        mask = new_mask
     end
-  in bitmask
-    mask = bitmask
+  end
+
+  memory.values.sum
+end
+
+def combine_value_with_mask value, mask, &rules
+  new_value = value.to_s(2).rjust(36, ?0).chars.zip(mask.chars).map do |v, m|
+    rules[v, m]
+  end.join
+
+  if new_value.include? ?X
+    [?0, ?1].repeated_permutation(new_value.count ?X).map do |bits_permutation|
+      (new_value.gsub(?X, '%s') % bits_permutation).to_i 2
+    end
+  else
+    [new_value.to_i(2)]
   end
 end
 
-puts memory.values.sum # 2900994392308
+
+puts sum_memory(program) { |memory, address, value, mask|
+  memory[address] = combine_value_with_mask(value, mask) { |value_bit, mask_bit|
+    mask_bit == ?X ? value_bit : mask_bit
+  }.first
+}
+
+# 3059488894985
+
+
+puts sum_memory(program) { |memory, address, value, mask|
+  addresses = combine_value_with_mask(address, mask) { |address_bit, mask_bit|
+    mask_bit == ?X ? ?X : mask_bit == ?0 ? address_bit : 1
+  }
+
+  addresses.each { |a| memory[a] = value }
+}
+
+# 2900994392308
 
 __END__
 mask = 00010010001010101XXXX000000X111X0111
