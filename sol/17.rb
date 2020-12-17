@@ -1,66 +1,61 @@
-require 'set'
-
-initial_layer = DATA.each_line.map do |line|
+singularity = DATA.each_line.map do |line|
   line.strip.chars.map do |c|
     c == ?# ? :active : :inactive
   end
 end
 
-cube = Hash.new do |h, k|
-  if k.size == 3
-    h[k] = :inactive
+setup = {
+  3 => {
+    space: Hash.new { |space, point| space[point] = :inactive },
+    directions: [-1, 0, 1].repeated_permutation(3).to_a - [[0] * 3],
+  },
+  4 => {
+    space: Hash.new { |space, point| space[point] = :inactive },
+    directions: [-1, 0, 1].repeated_permutation(4).to_a - [[0] * 4],
+  }
+}
+
+singularity.size.times do |y|
+  singularity.first.size.times do |x|
+    setup[3][:space][[x, y, 0]]    = singularity[x][y]
+    setup[4][:space][[x, y, 0, 0]] = singularity[x][y]
   end
 end
 
-tesseract = Hash.new do |h, k|
-  if k.size == 4
-    h[k] = :inactive
-  end
-end
+def bigbang space:, directions:
+  (1..6).each do |i|
+    next_space = Hash.new { |space, point| space[point] = :inactive }
 
-initial_layer[0].size.times do |x|
-  initial_layer.size.times do |y|
-    cube[[x, y, 0]] = initial_layer[x][y]
-    tesseract[[x, y, 0, 0]] = initial_layer[x][y]
-  end
-end
-
-def run space, dimensions
-  1.upto(6) do |i|
-    new_space = Hash.new { |h, k| h[k] = :inactive }
-
-    extended_keys = space.keys.flat_map do |point|
-      [-1, 0, 1].repeated_permutation(dimensions).map do |deltas|
-        point.zip(deltas).map &:sum
-      end
-    end.to_set
-
-    extended_keys.each do |point|
-      value = space[point]
-
-      neighbors = ([-1, 0, 1].repeated_permutation(dimensions).to_a - [[0] * dimensions]).map do |deltas|
-        point.zip(deltas).map &:sum
-      end
-
-      if space[point] == :active && ((2..3) === neighbors.count { |pt| space[pt] == :active })
-        new_space[point] = :active
-      else
-        new_space[point] = :inactive
-      end
-
-      if space[point] == :inactive && (neighbors.count { |pt| space[pt] == :active } == 3)
-        new_space[point] = :active
+    extra_points = space.keys.flat_map do |point|
+      directions.map do |dir|
+        point.zip(dir).map &:sum
       end
     end
 
-    space = new_space
+    extra_points.each do |point|
+      neighbors = directions.map do |dir|
+        point.zip(dir).map &:sum
+      end
+
+      if space[point] == :active && (2..3) === neighbors.count { |pt| space[pt] == :active }
+        next_space[point] = :active
+      else
+        next_space[point] = :inactive
+      end
+
+      if space[point] == :inactive && (neighbors.count { |pt| space[pt] == :active } == 3)
+        next_space[point] = :active
+      end
+    end
+
+    space = next_space
 
     puts "Number of active after #{i} cycle#{i == 1 ? '' : ?s}: #{space.values.count :active }"
   end
 end
 
-run cube, 3 # 271
-run tesseract, 4 # 2064
+bigbang **setup[3] # 271
+bigbang **setup[4] # 2064
 
 __END__
 #......#
