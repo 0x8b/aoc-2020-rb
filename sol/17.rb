@@ -38,17 +38,17 @@ def run space, dimensions
     extended_keys.each do |point|
       value = space[point]
 
-      neighbours = ([-1, 0, 1].repeated_permutation(dimensions).to_a - [[0] * dimensions]).map do |deltas|
+      neighbors = ([-1, 0, 1].repeated_permutation(dimensions).to_a - [[0] * dimensions]).map do |deltas|
         point.zip(deltas).map &:sum
       end
 
-      if space[point] == :active && ((2..3) === neighbours.count { |pt| space[pt] == :active })
+      if space[point] == :active && ((2..3) === neighbors.count { |pt| space[pt] == :active })
         new_space[point] = :active
       else
         new_space[point] = :inactive
       end
 
-      if space[point] == :inactive && (neighbours.count { |pt| space[pt] == :active } == 3)
+      if space[point] == :inactive && (neighbors.count { |pt| space[pt] == :active } == 3)
         new_space[point] = :active
       end
     end

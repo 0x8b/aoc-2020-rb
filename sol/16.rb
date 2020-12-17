@@ -1,7 +1,7 @@
 fields, your_ticket, nearby_tickets = DATA.read.split "\n\n"
 
 fields = fields.lines.collect do |field|
-  field.scan(/\d+/).map(&:to_i)
+  field.scan(/\d+/).map &:to_i
 end.map do |frb, fre, srb, sre|
   [frb..fre, srb..sre]
 end
@@ -13,11 +13,11 @@ nearby_tickets = nearby_tickets.lines.drop(1).map { |line| line.split(?,).map &:
 all_ranges = fields.flatten
 
 error_rate = nearby_tickets.sum do |ticket|
-  ticket.sum do |n|
-    if all_ranges.any? do |range| range.include? n end
+  ticket.sum do |field_value|
+    if all_ranges.any? do |range| range.include? field_value end
       0
     else
-      n
+      field_value
     end
   end
 end
@@ -33,34 +33,28 @@ valid_tickets = nearby_tickets.select do |ticket|
   end
 end
 
-order = Array.new fields.size
-
-for i in 0...fields.size
-  ith_items = valid_tickets.map do |ticket|
-    ticket[i]
-  end
-
-  order[i] = fields.each_index.select do |i|
-    ith_items.all? do |n|
-      fields[i][0] === n || fields[i][1] === n
+all_matched_fields = valid_tickets.transpose.map do |column|
+  fields.each_index.select do |i|
+    column.all? do |value|
+      fields[i].any? do |range|
+        range === value
+      end
     end
   end
 end
 
-correct_order = Array.new order.size
+correct_order = Array.new all_matched_fields.size
 
-while j = order.each_index.find { |j| order[j].size == 1 } do
-  correct_order[j] = order[j].first
-  order = order.map { |s| s - order[j] }
+while j = all_matched_fields.each_index.find { |j| all_matched_fields[j].size == 1 } do
+  correct_order[j] = all_matched_fields[j].first
+  all_matched_fields = all_matched_fields.map { |s| s - all_matched_fields[j] }
 end
 
 d_fields_indices = correct_order.each_index.select do |i|
   (0..5).include? correct_order[i]
 end
 
-product_of_d_fields = your_ticket.values_at(*d_fields_indices).inject :*
-
-puts product_of_d_fields # 453459307723
+puts your_ticket.values_at(*d_fields_indices).inject :* # 453459307723
 
 __END__
 departure location: 28-787 or 804-964
