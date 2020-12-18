@@ -1,38 +1,41 @@
-expressions = DATA.each_line.map &:strip
+exprs = DATA.each_line.map &:strip
 
-IS_PART_2 = false
+def evaluate expr
+  if /\(/ =~ expr
+    match = /\([^\(]*?\)/.match expr
 
-def evaluate expression
-  if expression.include?("(")
-    match = /\([^\(]*?\)/.match expression
+    slightly_reduced_expr = match.pre_match + evaluate(match[0][1..-2]).to_s + match.post_match
 
-    evaluate(match.pre_match + evaluate(match[0][1..-2]).to_s + match.post_match).to_i
-  elsif expression.include?("+") && IS_PART_2
-    match = /(\d+ \+ \d+)/.match expression
-    left, _, right = match[0].split
+    evaluate slightly_reduced_expr
+  elsif IS_PART_2 and /\+/ =~ expr
+    match = /(\d+ \+ \d+)/.match expr
+    lhs, _, rhs = match[0].split
 
-    evaluate(match.pre_match + (left.to_i + right.to_i).to_s + match.post_match).to_i
+    slightly_reduced_expr = match.pre_match + (lhs.to_i + rhs.to_i).to_s + match.post_match
+
+    evaluate slightly_reduced_expr
   else
-    tokens = expression.split(/\s+/).map { |d| /\d+/ =~ d ? d.to_i : d }
-    result = tokens.first
-    tokens = tokens.drop(1)
-    while tokens.size > 0
-      if tokens[0] == "*"
-        result *= tokens[1]
-      elsif tokens[0] == "+"
-        result += tokens[1]
-      end
+    tokens = expr.split.map { |d| /\d+/ =~ d ? d.to_i : d }
+    result = tokens.shift
 
-      tokens = tokens[2..]
+    while tokens.size > 0 do
+      case tokens.shift 2
+      in ?*, rhs
+        result *= rhs
+      in ?+, rhs
+        result += rhs
+      end
     end
 
     result
   end
 end
 
-puts expressions.sum { |exp| evaluate exp } # 21993583522852
+IS_PART_2 = false
+puts exprs.sum { |expr| evaluate expr } # 21993583522852
+
 IS_PART_2 = true
-puts expressions.sum { |exp| evaluate exp } # 122438593522757
+puts exprs.sum { |expr| evaluate expr } # 122438593522757
 
 __END__
 4 * 3 * (2 * 6 + (3 * 3 + 8 + 7 + 2) + 9 + 8) * 4 * 6
