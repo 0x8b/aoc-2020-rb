@@ -4,6 +4,10 @@ Code golf:
 
 - [12. Rain Risk](/sol/12-golf.rb)
 
+Inspired by other solutions:
+
+- [18. Operation Order](/sol/18-trick.rb) - neat trick with operators overloading.
+
 |Day|Name|Code|Status|Day|Name|Code|Status|
 |---|---|---|---|---|---|---|---|
 |01|[Report Repair](https://adventofcode.com/2020/day/1)|[view](/sol/01.rb)|⭐ ⭐|14|[Docking Data](https://adventofcode.com/2020/day/14)|[view](sol/14.rb)|⭐ ⭐|
