@@ -1,8 +1,6 @@
-RULES, MESSAGES = DATA.read.split "\n\n"
+data = DATA.read.split "\n\n"
 
-MESSAGES = MESSAGES.lines.map &:strip
-
-RULES = RULES.lines.map do |rule|
+RULES = data.first.lines.map do |rule|
   symbol, expression = rule.strip.split(": ")
 
   expression = expression.strip.split.map do |e|
@@ -18,35 +16,41 @@ RULES = RULES.lines.map do |rule|
   [symbol.to_i, expression]
 end.to_h
 
-def build_regexp symbol
+MESSAGES = data.last.lines.map &:strip
+
+
+def build_regular_expression symbol
   RULES[symbol].map do |e|
     if e.is_a? Integer
-      ?( + build_regexp(e) + ?)
+      ?( + build_regular_expression(e) + ?)
     else
       e
     end
   end.join
 end
 
+zero_rule_regexp = build_regular_expression 0
+
 valid = MESSAGES.select do |message|
-  match = Regexp.new(build_regexp(0)).match message
+  match = Regexp.new(zero_rule_regexp).match message
 
   match && match[0] == message
 end
 
 puts valid.count # 210
 
+
 RULES[8] = [42, ?|, 42, 8]
 RULES[11] = [42, 31, ?|, 42, 11, 31]
 
 FINITE = Hash.new
 
-RULES.each { |symbol, _|
+RULES.each do |symbol, _|
   begin
-    FINITE[symbol] = build_regexp symbol
+    FINITE[symbol] = build_regular_expression symbol
   rescue SystemStackError => e
   end
-}
+end
 
 FINITE[8] = "(#{FINITE[42]})+"
 
@@ -56,10 +60,8 @@ end
 
 FINITE[0] = "#{ FINITE[8] }(#{ FINITE[11].join(?|) })"
 
-
 valid = MESSAGES.select do |message|
-  # it took me about 2 hours to add ^ and $ :(
-  match = Regexp.new(?^ + FINITE[0] + ?$).match message
+  match = Regexp.new(?^ + FINITE[0] + ?$).match message # it took me about 2 hours to add ^ and $ :(
 
   match && match[0] == message
 end
