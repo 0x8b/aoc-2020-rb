@@ -1,72 +1,46 @@
 data = DATA.read.split "\n\n"
 
-RULES = data.first.lines.map do |rule|
-  symbol, expression = rule.strip.split(": ")
+MESSAGES = data.last.lines.map &:strip
 
-  expression = expression.strip.split.map do |e|
-    if /\d+/ =~ e
-      e.to_i
-    elsif e == ?|
-      e
+RULES = data.first.lines.map do |rule|
+  symbol, expr = rule.split ?:
+
+  expr = expr.strip.split.map do |term|
+    if /\d+/ =~ term
+      term.to_i
+    elsif term == ?|
+      term
     else
-      e[1..-2]
+      term[1..-2]
     end
   end
 
-  [symbol.to_i, expression]
+  [symbol.to_i, expr]
 end.to_h
 
-MESSAGES = data.last.lines.map &:strip
 
-
-def build_regular_expression symbol
-  RULES[symbol].map do |e|
-    if e.is_a? Integer
-      ?( + build_regular_expression(e) + ?)
+def build_re symbol
+  RULES[symbol].map do |term|
+    if term.is_a? Integer
+      ?( + build_re(term) + ?)
     else
-      e
+      term
     end
   end.join
 end
 
-zero_rule_regexp = build_regular_expression 0
-
-valid = MESSAGES.select do |message|
-  match = Regexp.new(zero_rule_regexp).match message
-
-  match && match[0] == message
-end
-
-puts valid.count # 210
+puts MESSAGES.grep(/^#{build_re 0}$/).count # 210
 
 
-RULES[8] = [42, ?|, 42, 8]
-RULES[11] = [42, 31, ?|, 42, 11, 31]
 
-FINITE = Hash.new
+FINITE = (RULES.keys - [0, 8, 11])
+  .map { |symbol| [symbol, build_re(symbol)] }
+  .to_h
 
-RULES.each do |symbol, _|
-  begin
-    FINITE[symbol] = build_regular_expression symbol
-  rescue SystemStackError => e
-  end
-end
+r42 = FINITE[42]
+r11 = ("1".."10").map do |i| '((' + FINITE[42] + '){' + i + '}(' + FINITE[31] + '){' + i + '})' end.join('|')
 
-FINITE[8] = "(#{FINITE[42]})+"
-
-FINITE[11] = ("1".."20").map do |i|
-  "((#{ FINITE[42] }){#{ i }}(#{ FINITE[31] }){#{ i }})"
-end
-
-FINITE[0] = "#{ FINITE[8] }(#{ FINITE[11].join(?|) })"
-
-valid = MESSAGES.select do |message|
-  match = Regexp.new(?^ + FINITE[0] + ?$).match message # it took me about 2 hours to add ^ and $ :(
-
-  match && match[0] == message
-end
-
-puts valid.count # 422
+puts MESSAGES.grep(/^(#{r42})+(#{r11})$/).count # 422
 
 __END__
 101: 118 64
