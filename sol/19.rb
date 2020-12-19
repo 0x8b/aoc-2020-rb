@@ -1,72 +1,70 @@
-RULES, messages = DATA.read.split "\n\n"
+RULES, MESSAGES = DATA.read.split "\n\n"
 
-messages = messages.lines.map &:strip
+MESSAGES = MESSAGES.lines.map &:strip
 
-RULES = RULES.lines.map { |rule|
-  k, v = rule.strip.split(": ")
+RULES = RULES.lines.map do |rule|
+  symbol, expression = rule.strip.split(": ")
 
-  v = v.strip.split(/\s+/).map { |d| /\d+/ =~ d ? d.to_i : d }
-  [k.to_i, v]
-}.to_h.transform_values { |v| v.map {|f| f != "|" && f.is_a?(String) ? f[1..-2] : f } }
+  expression = expression.strip.split.map do |e|
+    if /\d+/ =~ e
+      e.to_i
+    elsif e == ?|
+      e
+    else
+      e[1..-2]
+    end
+  end
 
-def build_regexp root
-  RULES[root].map { |e|
-    if e.is_a?(Integer)
-      "(" + build_regexp(e) + ")"
+  [symbol.to_i, expression]
+end.to_h
+
+def build_regexp symbol
+  RULES[symbol].map do |e|
+    if e.is_a? Integer
+      ?( + build_regexp(e) + ?)
     else
       e
     end
-  }.join
+  end.join
 end
 
-n= messages.select { |m|
-  reg = Regexp.new(build_regexp(0))
+valid = MESSAGES.select do |message|
+  match = Regexp.new(build_regexp(0)).match message
 
-  mt = reg.match m
+  match && match[0] == message
+end
 
-  if mt
-    mt[0] == m
-  else
-    false
-  end
-}.count
+puts valid.count # 210
 
-puts n # 210
-
-RULES[8] = [42, "|", 42, 8]
-RULES[11] = [42, 31, "|", 42, 11, 31]
+RULES[8] = [42, ?|, 42, 8]
+RULES[11] = [42, 31, ?|, 42, 11, 31]
 
 FINITE = Hash.new
 
-RULES.each { |k, v|
+RULES.each { |symbol, _|
   begin
-    r = build_regexp(k)
-    FINITE[k] = r
-    true
+    FINITE[symbol] = build_regexp symbol
   rescue SystemStackError => e
-    false
   end
 }
 
-FINITE[8] = "(" + FINITE[42] + ")+"
-FINITE[11] = (1..20).map { |i|
-  "((" + FINITE[42] + "){" +i.to_s+ "}(" + FINITE[31] + "){" + i.to_s + "})"
-}.join("|")
+FINITE[8] = "(#{FINITE[42]})+"
 
-FINITE[0] = FINITE[8] + "(" + FINITE[11] + ")"
+FINITE[11] = ("1".."20").map do |i|
+  "((#{ FINITE[42] }){#{ i }}(#{ FINITE[31] }){#{ i }})"
+end
 
-
-n = messages.select { |m|
-  reg = Regexp.new("^" + FINITE[0] + "$")
-
-  mt = reg.match m
-
-  mt && mt[0] == m
-}.count
-
-puts n # 422
+FINITE[0] = "#{ FINITE[8] }(#{ FINITE[11].join(?|) })"
 
 
+valid = MESSAGES.select do |message|
+  # it took me about 2 hours to add ^ and $ :(
+  match = Regexp.new(?^ + FINITE[0] + ?$).match message
+
+  match && match[0] == message
+end
+
+puts valid.count # 422
 
 __END__
 101: 118 64
