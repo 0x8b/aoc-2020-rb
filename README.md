@@ -17,7 +17,7 @@ Inspired by other solutions:
 |05|[Binary Boarding](https://adventofcode.com/2020/day/5)|[view](/sol/05.rb)|⭐ ⭐|18|[Operation Order](https://adventofcode.com/2020/day/18)|[view](sol/18.rb)|⭐ ⭐|
 |06|[Custom Customs](https://adventofcode.com/2020/day/6)|[view](/sol/06.rb)|⭐ ⭐|19|[Monster Messages](https://adventofcode.com/2020/day/19)|[view](sol/19.rb)|⭐ ⭐|
 |07|[Handy Haversacks](https://adventofcode.com/2020/day/7)|[view](/sol/07.rb)|⭐ ⭐|20|[Jurassic Jigsaw](https://adventofcode.com/2020/day/20)|[view](sol/20.rb)|⭐ ⭐|
-|08|[Handheld Halting](https://adventofcode.com/2020/day/8)|[view](/sol/08.rb)|⭐ ⭐|21|[-](https://adventofcode.com/2020/day/21)|[-](sol/21.rb)||
+|08|[Handheld Halting](https://adventofcode.com/2020/day/8)|[view](/sol/08.rb)|⭐ ⭐|21|[Allergen Assessment](https://adventofcode.com/2020/day/21)|[view](sol/21.rb)|⭐ ⭐|
 |09|[Encoding Error](https://adventofcode.com/2020/day/9)|[view](/sol/09.rb)|⭐ ⭐|22|[-](https://adventofcode.com/2020/day/22)|[-](sol/22.rb)||
 |10|[Adapter Array](https://adventofcode.com/2020/day/10)|[view](/sol/10.rb)|⭐ ⭐|23|[-](https://adventofcode.com/2020/day/23)|[-](sol/23.rb)||
 |11|[Seating System](https://adventofcode.com/2020/day/11)|[view](/sol/11.rb)|⭐ ⭐|24|[-](https://adventofcode.com/2020/day/24)|[-](sol/24.rb)||
