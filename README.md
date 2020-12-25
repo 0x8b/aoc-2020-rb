@@ -21,5 +21,5 @@ Inspired by other solutions:
 |09|[Encoding Error](https://adventofcode.com/2020/day/9)|[view](/sol/09.rb)|⭐ ⭐|22|[Crab Combat](https://adventofcode.com/2020/day/22)|[view](sol/22.rb)|⭐ ⭐|
 |10|[Adapter Array](https://adventofcode.com/2020/day/10)|[view](/sol/10.rb)|⭐ ⭐|23|[Crab Cups](https://adventofcode.com/2020/day/23)|[-](sol/23.rb)||
 |11|[Seating System](https://adventofcode.com/2020/day/11)|[view](/sol/11.rb)|⭐ ⭐|24|[Lobby Layout](https://adventofcode.com/2020/day/24)|[view](sol/24.rb)|⭐ ⭐|
-|12|[Rain Risk](https://adventofcode.com/2020/day/12)|[view](/sol/12.rb)|⭐ ⭐|25|[-](https://adventofcode.com/2020/day/25)|[-](sol/25.rb)||
+|12|[Rain Risk](https://adventofcode.com/2020/day/12)|[view](/sol/12.rb)|⭐ ⭐|25|[Combo Breaker](https://adventofcode.com/2020/day/25)|[view](sol/25.rb)|⭐ ⭐|
 |13|[Shuttle Search](https://adventofcode.com/2020/day/13)|[view](/sol/13.rb)|⭐|||||
